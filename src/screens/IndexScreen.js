@@ -1,18 +1,26 @@
 import React, { useContext } from 'react'
-import { View, Text, StyleSheet, FlatList, Button } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Button, TouchableOpacity } from 'react-native';
 import { Context } from '../context/BlogContext';
+import { Feather } from '@expo/vector-icons'
 
-const IndexScreen = () => {
-    const { state, addBlogPost } = useContext(Context);
+const IndexScreen = ({navigation}) => {
+    const { state, deletePost } = useContext(Context);
 
     return (
         <View>
-            <Text>merge</Text>
-            <Button title="Add post" onPress={addBlogPost} />
             <FlatList 
                 data={state}
                 renderItem={({item}) => {
-                    return <Text>{item.title}</Text>
+                    return (
+                        <TouchableOpacity onPress={() => navigation.navigate('Show', {id: item.id})}>
+                            <View style={styles.row}>
+                                <Text>{item.title} - {item.id}</Text>
+                                <TouchableOpacity onPress={() => deletePost(item.id)}>
+                                    <Feather name="trash" style={styles.image}/>
+                                </TouchableOpacity>
+                            </View>
+                        </TouchableOpacity>
+                    )
                 }}
                 keyExtractor={(blogPost) =>  blogPost.title}
             />
@@ -20,8 +28,31 @@ const IndexScreen = () => {
     );
 };
 
+IndexScreen.navigationOptions = ({navigation}) => {
+    return {
+      headerRight: (
+      <TouchableOpacity onPress={() => navigation.navigate('Create')}>
+        <Feather name="plus" size={30} />  
+      </TouchableOpacity>
+      )
+    };
+}
+
 const styles = StyleSheet.create({
-    
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingVertical: 20,
+        borderTopWidth: 1,
+        borderColor: 'red'
+    },
+    title: {
+        fontSize: 18
+    },
+    image: {
+        fontSize: 24,
+        marginRight: 5
+    }
 });
 
 export default IndexScreen;
