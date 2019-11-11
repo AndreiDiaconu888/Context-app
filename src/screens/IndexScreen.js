@@ -22,7 +22,7 @@ const IndexScreen = ({navigation}) => {
     return (
         <View>
             <FlatList 
-                data={state}
+                data={state.blogPosts}
                 renderItem={({item}) => {
                     return (
                         <TouchableOpacity onPress={() => navigation.navigate('Show', {id: item.id})}>
@@ -56,7 +56,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingVertical: 20,
-        borderTopWidth: 1,
+        paddingHorizontal: 5,
+        borderBottomWidth: 1,
         borderColor: 'red'
     },
     title: {

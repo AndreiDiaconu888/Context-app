@@ -6,14 +6,18 @@ import { Provider } from './src/context/BlogContext';
 import ShowScreen from './src/screens/ShowScreen';
 import CreateScreen from './src/screens/CreateScreen';
 import EditScreen from './src/screens/EditScreen';
+import StartScreen from './src/screens/StartScreen';
+import UsersScreen from './src/screens/UsersScreen';
 
 const navigator = createStackNavigator({
+  Start: StartScreen,
   Index: IndexScreen,
   Show: ShowScreen,
   Create: CreateScreen,
-  Edit: EditScreen
+  Edit: EditScreen,
+  Users: UsersScreen 
 },{
-  initialRouteName: 'Index',
+  initialRouteName: 'Start',
   defaultNavigationOptions: {
     title: 'Blogs'
   }

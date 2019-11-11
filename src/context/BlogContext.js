@@ -1,29 +1,12 @@
 import createDataContext from './createDataContext';
 import jsonServer from '../Api/jsonServer';
+import { blogReducer } from './reducers/BlogReducer';
+import { userReducer } from './reducers/UserReducer';
 
-const blogReducer = (state, action) => {
-    switch(action.type) {
-        case 'getBlogPosts':
-            return action.payload;
-        case 'addBlogPost':
-            return [...state, { 
-                id: Math.floor(Math.random() * 99999),  
-                title: action.payload.title,
-                content: action.payload.content 
-            }];
-        case 'editBlogPost': 
-            return state.map((blogpost) => {
-                return blogpost.id === action.payload.id ?
-                action.payload :
-                blogpost;
-                }
-            );
-        case 'deletePost':
-            return state.filter((post) => post.id !== action.payload);
-        default:
-            return state;
-    }
-}
+const mainReducer = ({users, blogPosts}, action) => ({
+    users: userReducer(users, action),
+    blogPosts: blogReducer(blogPosts, action)
+});
 
 const getBlogPosts = (dispatch) => {
     return async () => {
@@ -43,7 +26,7 @@ const addBlogPost = (dispatch) => {
         //return async  (title, content, callback) => {
             //await axios.post('/posting', title, content);
             // dispatch({type: 'addBlogPost', payload: {title, content}});
-            //callback ? callback() : null ;
+            // callback ? callback() : null ;
     //} catch (err) { --- error handling ---}
     }
 }
@@ -63,8 +46,15 @@ const deletePost = (dispatch) => {
     }
 }
 
+const getUsers = (dispatch) => {
+    return async () => {
+        const users = await jsonServer.get('/users');
+        dispatch({type: 'getUsers', payload: users.data});
+    };
+};
+
 export const { Context, Provider } = createDataContext(
-    blogReducer, 
-    {addBlogPost, deletePost, editBlogPost, getBlogPosts}, 
-    []
+    mainReducer, 
+    {addBlogPost, deletePost, editBlogPost, getBlogPosts, getUsers}, 
+    {}
 ); 

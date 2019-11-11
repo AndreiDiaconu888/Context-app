@@ -8,13 +8,10 @@ const EditScreen = ({navigation}) => {
 
     const id = navigation.getParam("id");
     const blogPost = state.find((blogPost) => blogPost.id === id);
-    
-    const [title, setTitle] = useState(blogPost.title);
-    const [content, setContent] = useState(blogPost.content);
 
     return <BlogPostForm 
-        onSubmit={(title, content) => {
-            editBlogPost(id, title, content, () => {
+        onSubmit={(newTitle, newContent) => {
+            editBlogPost(id, newTitle, newContent, () => {
                 navigation.pop(); 
             })
         }}

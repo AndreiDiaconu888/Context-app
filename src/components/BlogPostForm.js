@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     input: {
         borderWidth: 1,
         marginHorizontal: 5,
+        paddingHorizontal: 5,
         fontSize: 18,
         marginBottom: 5
     },
